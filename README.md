@@ -2,6 +2,9 @@
 
 # LAB | DOM Race Car
 
+
+![Island Racer Logo](images/logo.png)
+
 <details>
   <summary>
    <h2>Learning Goals</h2>
