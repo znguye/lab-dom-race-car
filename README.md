@@ -151,7 +151,6 @@ You can use the below example of the completed code as a reference:
 
 <details>
 	<summary>See the code</summary>
-
 <br>
 
 ```js
@@ -160,14 +159,7 @@ class Game {
     this.startScreen = document.getElementById("game-intro");
     this.gameScreen = document.getElementById("game-screen");
     this.gameEndScreen = document.getElementById("game-end");
-    this.player = new Player(
-      this.gameScreen,
-      200,
-      500,
-      100,
-      150,
-      "./images/car.png"
-    );
+    this.player = null;
     this.height = 600;
     this.width = 500;
     this.obstacles = [];
@@ -461,6 +453,14 @@ class Game {
 
 <br>
 
+
+
+![island racer game - player car showing](https://education-team-2020.s3.eu-west-1.amazonaws.com/web-dev/m1/lab-dom-race-car/lab-dom-race-car-player.png)
+
+
+
+<br>
+
 ## Iteration 5: Handle Keyboard Input
 
 The goal of this iteration is to allow the player to control the car using the keyboard.
@@ -616,7 +616,7 @@ class Obstacle {
 
   move() {
     // Move the obstacle down by 3px
-    this.top += 10;
+    this.top += 3;
     // Update the obstacle's position on the screen
     this.updatePosition();
   }
@@ -629,9 +629,7 @@ class Obstacle {
 
 <br>
 
-<img src="https://education-team-2020.s3.eu-west-1.amazonaws.com/web-dev/m1/lab-dom-race-car/lab-dom-race-car-start-game-obstacles.gif" width="600" style="display: block; margin: 0 auto" />
 
-<br>
 
 ## Iteration 7: Handling Collisions
 
@@ -739,6 +737,14 @@ class Game {
 
 <br>
 
+
+
+<img src="https://education-team-2020.s3.eu-west-1.amazonaws.com/web-dev/m1/lab-dom-race-car/lab-dom-race-car-start-game-obstacles.gif" width="600" style="display: block; margin: 0 auto" />
+
+<br>
+
+
+
 ## Iteration 8: End Game Screen
 
 In this final iteration, we will implement the end game screen, shown to the user when the game is over.
@@ -783,7 +789,7 @@ window.onload = function () {
 
 In this iteration, we will focus on refactoring the `Player` and `Obstacle` classes by implementing inheritance. This will enable you to reuse common code and establish a more organized structure. In particular, we will create a superclass called `Component` that will hold the shared functionality for both `Player` and `Obstacle`:
 
-1. Create a new class `Component` with a constructor that takes `container`, `left`, `top`, `width`, `height`, and `imgSrc` as parameters. This constructor will set up the common properties and DOM elements for both `Player` and `Obstacle`.
+1. Create a new class `Component` with a constructor that takes `gameScreen`, `left`, `top`, `width`, `height`, and `imgSrc` as parameters. This constructor will set up the common properties and DOM elements for both `Player` and `Obstacle`.
 
 2. Update the `Player` and `Obstacle` classes to extend the `Component` class. Replace their constructors with a call to `super()` that passes the required parameters to the superclass constructor.
 
@@ -802,8 +808,8 @@ Here's how the final refactored code should look like:
 // js/component.js
 
 class Component {
-  constructor(container, left, top, width, height, imgSrc) {
-    this.container = container;
+  constructor(gameScreen, left, top, width, height, imgSrc) {
+    this.gameScreen = gameScreen;
     this.left = left;
     this.top = top;
     this.width = width;
@@ -817,7 +823,7 @@ class Component {
     this.element.style.left = `${left}px`;
     this.element.style.top = `${top}px`;
 
-    this.container.appendChild(this.element);
+    this.gameScreen.appendChild(this.element);
   }
 
   updatePosition() {
@@ -835,10 +841,53 @@ class Component {
 class Player extends Component {
   constructor(gameScreen, left, top, width, height, imgSrc) {
     super(gameScreen, left, top, width, height, imgSrc);
+
+    this.directionX = 0;
+    this.directionY = 0;
   }
 
-  // ... rest of the Player class code
+  move() {
+    // Update player's car position based on directionX and directionY
+    this.left += this.directionX;
+    this.top += this.directionY;
+    debugger;
+
+    // Ensure the player's car stays within the game screen
+    if (this.left < 10) {
+      this.left = 10;
+    }
+    if (this.top < 10) {
+      this.top = 10;
+    }
+    if (this.left > this.gameScreen.offsetWidth - this.width - 10) {
+      this.left = this.gameScreen.offsetWidth - this.width - 10;
+    }
+    if (this.top > this.gameScreen.offsetHeight - this.height - 10) {
+      this.top = this.gameScreen.offsetHeight - this.height - 10;
+    }
+
+    // Update the player's car position on the screen
+    this.updatePosition();
+  }
+
+  didCollide(obstacle) {
+    const playerRect = this.element.getBoundingClientRect();
+    const obstacleRect = obstacle.element.getBoundingClientRect();
+
+    if (
+      playerRect.left < obstacleRect.right &&
+      playerRect.right > obstacleRect.left &&
+      playerRect.top < obstacleRect.bottom &&
+      playerRect.bottom > obstacleRect.top
+    ) {
+      console.log("Crash!");
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
+
 ```
 
 <br>
@@ -858,13 +907,22 @@ class Obstacle extends Component {
     );
   }
 
-  // ... rest of the Obstacle class code
+  move() {
+    // Move the obstacle down by 3px
+    this.top += 3;
+    // Update the obstacle's position on the screen
+    this.updatePosition();
+  }
+  
 }
+
 ```
 
 <br>
 
 </details>
+
+
 
 <br>
 
@@ -873,6 +931,30 @@ class Obstacle extends Component {
 To make the game more competitive, add elements to shows the player's score and lives. These elements should display the remaining lives and accumulated points as the player successfully avoids obstacles.
 
 ![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_e4b1a09cee1b1a827a2c68023d0d2b1f.png)
+
+
+
+<br>
+
+<br>
+
+
+
+## Lab Solution
+
+You can find the complete solution code for the lab at:  [dom-race-car](https://github.com/ironhack-labs/lesson-code-dom-race-car).
+
+To clone the solution repository, run the following commands:
+
+```shell
+# clone the repo
+git clone https://github.com/ironhack-labs/lesson-code-dom-race-car.git
+
+# navigate to the cloned repo
+cd lesson-code-dom-race-car
+```
+
+
 
 <br>
 
