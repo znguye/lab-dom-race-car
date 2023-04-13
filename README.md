@@ -71,7 +71,7 @@ The first thing we will do is get familiar with the starter code provided for th
 
    - `script.js` - This file contains code that handles the game's start button. Please open it and take a look at how the event listener is set up.
 
-   - `game.js` - This is the file where we will define the `Game` class to represent the game's data and behavior. We will fill out this class as we progress through the exercise.
+   - `game.js` - This is the file where we will define the `Game` class to represent the game's data (properties) and behaviors (methods). We will fill out this class as we progress through the exercise.
 
 <br>
 
