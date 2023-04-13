@@ -38,7 +38,7 @@ During the first part, the teacher will do a demo and walk you through the creat
 
 In the second part, you and your classmates will have the opportunity to create the game on your own. You will be provided with the finished game as a reference guide, and the teacher will be available to answer any questions you may have.
 
-In the second part, you and your classmates will have to create the game on your own. The code of the finished game is already provided in the exercise as a reference guide, and the teacher will be available to answer any questions you may have.
+<!-- In the second part, you and your classmates will have to create the game on your own. The code of the finished game is already provided in the exercise as a reference guide, and the teacher will be available to answer any questions you may have. -->
 
 ## Requirements
 
