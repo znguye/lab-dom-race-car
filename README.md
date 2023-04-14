@@ -79,7 +79,9 @@ The start screen is already displayed on the page, as shown below.
 
 ![island racer game start screen](https://education-team-2020.s3.eu-west-1.amazonaws.com/web-dev/m1/lab-dom-race-car/lab-dom-race-car-start-screen.png)
 
-Upon clicking the **Start Game** button, the player should transition from the _start screen_ to the _game screen_, initiating the game. In the next iteration, we will create the Game class and implement the functionality required to start the game.
+Upon clicking the **Start Game** button, the player should transition from the _start screen_ to the _game screen_, initiating the game. 
+
+In the next iteration, we will create the `Game` class and implement the functionality required to **start** the game.
 
 <br>
 
@@ -87,7 +89,7 @@ Upon clicking the **Start Game** button, the player should transition from the _
 
 In this iteration, you will create the `Game` class in the `js/game.js` file. This class will be responsible for managing the game data and behavior.
 
-1. In the file `js/game.js` define a new class called `Game`.
+1. The class `Game` is defined in the `js/game.js` file.
 
 2. The `Game` class should have the following properties defined in the constructor:
 
@@ -123,7 +125,7 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
    - Sets the height and width of the game screen.
    - Hides the start screen.
    - Shows the game screen.
-   - Starts the game loop by calling the `gameLoop()` method.
+   - Starts the game loop by calling the `gameLoop()` method. We will create a `gameLoop` method in the following iteration.
 
    </details>
 
@@ -134,7 +136,7 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
 
    - Checks if the `gameIsOver` flag is set to `true`. If it is, it interrupts the function to stop the loop.
 
-   - Invokes the `update()` method to update the game state.
+   - Invokes the `update()` method to update the game state. We will create a `update` method in the following iteration.
 
    - To ensure that the game loop function runs repeatedly, it should invoke itself (like `this.gameLoop()`), to create a recursive loop.
      To ensure a consistent frame rate, use `window.requestAnimationFrame()` to execute the function.
@@ -178,16 +180,18 @@ class Game {
 
     // Hide the start screen
     this.startScreen.style.display = "none";
+    
     // Show the game screen
     this.gameScreen.style.display = "block";
 
-    //
+    // Start the game loop
     this.gameLoop();
   }
 
   gameLoop() {
     console.log("in the game loop");
 
+    // Interrupt the function to stop the loop if "gameIsOver" is set to "true"
     if (this.gameIsOver) {
       return;
     }
@@ -197,7 +201,9 @@ class Game {
     window.requestAnimationFrame(() => this.gameLoop());
   }
 
-  update() {}
+  update() {
+    console.log("in the update");
+  }
 }
 ```
 
@@ -267,25 +273,22 @@ In this iteration, we will create the `Player` class, representing the player's 
 
    - `height` - the height of the car element passed as an argument to the constructor.
 
-   - `directionX` - initially set to 0. It is used to specify the horizontal movement direction:
+   - `directionX` - initially set to 0. It is used to specify the horizontal movement direction and can have the following values:
      - `0`: not moving horizontally
      - `1`: moving horizontally to the right
      - `-1`: moving horizontally to the left
-   - `directionY` - initially set to 0. It is used to specify the horizontal movement direction:
-
+   - `directionY` - initially set to 0. It is used to specify the horizontal movement direction and can have the following values:
      - `0`: not moving vertically
-
      - `1`: moving vertically down
-
      - `-1`: moving vertically up
 
-   - `element` - the image element representing the car, created in the constructor using the provided image url passed as an argument to the constructor.
+   - `element` - the **image** element representing the car. This image element should be created in the constructor using the *provided image source (image url) passed as an argument* to the constructor.
 
    <br>
 
-5. In order to set the exact position of the player element on the game screen, it should be positioned absolutely (`position: absolute`).
+5. In order to set the exact position of the player element on the game screen, it should be positioned absolutely (`position: absolute`). The exact position is determined by this element's width, height, left and top properties.
 
-6. Make sure to append the player element to the `gameScreen`.
+6. Make sure to append the newly created element to the `gameScreen`.
 
 7. The `Player` class should have the following methods:
 
@@ -298,7 +301,7 @@ In this iteration, we will create the `Player` class, representing the player's 
 
    - Ensures the player's car stays within the boundaries of the game screen by checking and adjusting the `left` and `top` properties.
 
-   - Updates the player's car position on the screen by calling the `updatePosition()` method.
+   - Updates the player's car position on the screen by calling the `updatePosition()` method. This method will be created in one of the following iterations.
 
    </details>
 
@@ -310,7 +313,7 @@ In this iteration, we will create the `Player` class, representing the player's 
    </details>
 
    <details>
-     <summary> <code><b>didColide(obstacle)</b></code> </summary>
+     <summary> <code><b>didCollide(obstacle)</b></code> </summary>
 
    Checks if the player's car collides with an obstacle. This method takes an `Obstacle` object as an argument and returns a boolean value indicating whether a collision occurred.
 
@@ -339,6 +342,7 @@ class Player {
 
     this.element.src = imgSrc;
     this.element.style.position = "absolute";
+    // Set up the default element's property values
     this.element.style.width = `${width}px`;
     this.element.style.height = `${height}px`;
     this.element.style.left = `${left}px`;
@@ -370,6 +374,11 @@ class Player {
     this.updatePosition();
   }
 
+  updatePosition() {
+    this.element.style.left = `${this.left}px`;
+    this.element.style.top = `${this.top}px`;
+  }
+
   didCollide(obstacle) {
     const playerRect = this.element.getBoundingClientRect();
     const obstacleRect = obstacle.element.getBoundingClientRect();
@@ -386,10 +395,7 @@ class Player {
     }
   }
 
-  updatePosition() {
-    this.element.style.left = `${this.left}px`;
-    this.element.style.top = `${this.top}px`;
-  }
+
 }
 ```
 
@@ -401,7 +407,7 @@ class Player {
 
 ## Iteration 4: Add the Player to the Game
 
-1. Within the `Game` class, instantiate a new `Player` object and store it in the `player` property of the `Game`:
+1. As a reminder, we have already defined the "player" property of the `Game` class and set it up to "null", so now let's instantiate a new `Player` object and store it in the `player` property of the `Game`. 
 
 <details>
 	<summary>See the code</summary>
@@ -544,19 +550,21 @@ In this iteration, we will create the `Obstacle` class, which will be used to cr
 
    - `left` - randomly generated number representing the horizontal position of the car.
 
-   - `top` - the initial vertical position of the obstacle. We will set it to `600`.
+   - `top` - the initial vertical position of the obstacle. We will set it to `0`.
 
    - `width` - the width of the obstacle element. We will set it to `100`.
 
-   - `height` - the height of the obstacle element. We will set it to `160`.
+   - `height` - the height of the obstacle element. We will set it to `150`.
 
    - `element` - the image element that represents the obstacle car. We will use the image of the red car available in the `images/` folder.
 
      <br>
 
-5. Once you create the obstacle element, you should position it absolutely (`position: absolute`) to be able to specify its exact position.
+5. Once you create the obstacle element, you should position it absolutely (`position: absolute`) to be able to specify its exact position. The exact position is determined by this element's width, height, left and top properties.
 
 6. Also, remember to append the obstacle element to the `gameScreen`.
+
+<!-- 🚨 HERE 🚨 -->
 
 7. The `Obstacle` class should have the following methods:
 
