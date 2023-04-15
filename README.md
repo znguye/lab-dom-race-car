@@ -273,11 +273,11 @@ In this iteration, we will create the `Player` class, representing the player's 
 
    - `height` - the height of the car element passed as an argument to the constructor.
 
-   - `directionX` - initially set to 0. It is used to specify the horizontal movement direction and can have the following values:
+   - `directionX` - initially set to 0. It is used to specify the **horizontal** movement direction and can have the following values:
      - `0`: not moving horizontally
      - `1`: moving horizontally to the right
      - `-1`: moving horizontally to the left
-   - `directionY` - initially set to 0. It is used to specify the horizontal movement direction and can have the following values:
+   - `directionY` - initially set to 0. It is used to specify the **vertical** movement direction and can have the following values:
      - `0`: not moving vertically
      - `1`: moving vertically down
      - `-1`: moving vertically up
@@ -357,15 +357,22 @@ class Player {
     this.top += this.directionY;
 
     // Ensure the player's car stays within the game screen
+    // handles left hand side
     if (this.left < 10) {
       this.left = 10;
     }
+
+    // handles top side
     if (this.top < 10) {
       this.top = 10;
     }
+
+    // handles right hand side
     if (this.left > this.gameScreen.offsetWidth - this.width - 10) {
       this.left = this.gameScreen.offsetWidth - this.width - 10;
     }
+
+    // handles bottom side
     if (this.top > this.gameScreen.offsetHeight - this.height - 10) {
       this.top = this.gameScreen.offsetHeight - this.height - 10;
     }
@@ -646,16 +653,28 @@ This method is responsible for updating the game state during each loop iteratio
 
 - Update player's car position based on its `directionX` and `directionY` properties by invoking the method `player.move()`.
 
+- Randomly generate a new obstacle.
+
 - Iterate through the list of `obstacles`, move each obstacle, and check for collision with the player’s car.
 
   - If there is a collision, remove the obstacle from the game and reduce the player’s remaining lives by one.
 
   - If the obstacle is off the screen, remove the obstacle from the game and increase the player’s score by one.
 
-- Check if the player has run out of lives, and end the game if so. You can create a new method responsible for ending the game.
-- Randomly generate a new obstacle.
+- Check if the player has run out of lives, and end the game if so. Create a new method (`endGame`) responsible for ending the game.
+
 
 </details>
+ 
+ <details>
+   <summary> <code><b>endGame()</b></code> </summary>
+
+ - Remove a player and all the obstacles from the DOM.
+ - Set the `gameIsOver` flag to `true`.
+ - Hide the game screen.
+ - Show the end game screen.
+
+ </details>
 
 <br>
 
@@ -718,11 +737,10 @@ class Game {
   // Create a new method responsible for ending the game
   endGame() {
     this.player.element.remove();
-    this.obstacles.forEach(function (obstacle) {
-      obstacle.element.remove();
-    });
+    this.obstacles.forEach(obstacle => obstacle.element.remove());
 
     this.gameIsOver = true;
+
     // Hide game screen
     this.gameScreen.style.display = "none";
     // Show end game screen
@@ -934,13 +952,7 @@ To make the game more competitive, add elements to shows the player's score and 
 
 ![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_e4b1a09cee1b1a827a2c68023d0d2b1f.png)
 
-
-
 <br>
-
-<br>
-
-
 
 ## Lab Solution
 
