@@ -215,7 +215,7 @@ class Game {
 
 ## Iteration 2: Start the Game
 
-When the **Start Game** button is clicked, inside the `startGame` function we should create a new instance of the `Game` class and start the game by invoking the `start()` method:
+Check the provided code in the `js/script.js` file. When the **Start Game** button is clicked, inside the `startGame` function we should create a new instance of the `Game` class and start the game by invoking the `start()` method:
 
 <details>
 	<summary>See the code</summary>
@@ -228,7 +228,7 @@ When the **Start Game** button is clicked, inside the `startGame` function we sh
 window.onload = function () {
   const startButton = document.getElementById("start-button");
   const restartButton = document.getElementById("restart-button");
-  let game;
+  let game; // added
 
   startButton.addEventListener("click", function () {
     startGame();
@@ -236,9 +236,9 @@ window.onload = function () {
 
   function startGame() {
     console.log("start game");
-    game = new Game();
+    game = new Game(); // added
 
-    game.start();
+    game.start(); // added
   }
 };
 ```
@@ -474,7 +474,8 @@ class Game {
 
 The goal of this iteration is to allow the player to control the car using the keyboard.
 
-To do this, we will add an event listener in the `js/script.js` file, which will update the player's `directionX` and `directionY` properties based on the keys that the user presses on the keyboard:
+To do this, we will add an event listener in the `js/script.js` file, which will update the player's car `directionX` and `directionY` properties based on the keys that the user presses on the keyboard. 
+This function listens for the `keydown` event using `document.onkeydown` and checks if the pressed key matches any of the allowed keystrokes (arrow keys).
 
 <details>
 	<summary>See the code</summary>
@@ -550,7 +551,7 @@ In this iteration, we will create the `Obstacle` class, which will be used to cr
 
    - `left` - randomly generated number representing the horizontal position of the car.
 
-   - `top` - the initial vertical position of the obstacle. We will set it to `0`.
+   - `top` - the initial vertical position of the obstacle. We will set it to `600`.
 
    - `width` - the width of the obstacle element. We will set it to `100`.
 
@@ -564,20 +565,12 @@ In this iteration, we will create the `Obstacle` class, which will be used to cr
 
 6. Also, remember to append the obstacle element to the `gameScreen`.
 
-<!-- 🚨 HERE 🚨 -->
-
 7. The `Obstacle` class should have the following methods:
 
    <details>
      <summary> <code><b>move()</b></code> </summary>
 
-   Moves the obstacle according to the user's input by doing the following:
-
-   - Listens for the `keydown` event using `document.onkeydown`.
-
-   - Checks if the pressed key matches any of the allowed keystrokes (arrow keys).
-
-   - If the `key` matches, it moves the obstacle in the corresponding direction (left, up, right, or down) by adjusting the `left` or `top` CSS property of the obstacle's `img` element.
+   - Move the obstacle down by 3px by continuously updating its `top` property. 
 
    - Update the obstacle's position on the screen by calling the `updatePosition()` method.
 
@@ -639,8 +632,6 @@ class Obstacle {
 </details>
 
 <br>
-
-
 
 ## Iteration 7: Handling Collisions
 
@@ -760,7 +751,7 @@ class Game {
 
 In this final iteration, we will implement the end game screen, shown to the user when the game is over.
 
-We will do this by adding a `click` event listener to the **Restart Game** button. The handler function for this listener should reload the page when the button is clicked. You can achieve this by using the [`location.reload()`](https://developer.mozilla.org/en-US/docs/Web/API/Location/reload) method.
+Check the code in the `js/script.js`. We will do this by adding a `click` event listener to the **Restart Game** button. The handler function for this listener should reload the page when the button is clicked. You can achieve this by using the [`location.reload()`](https://developer.mozilla.org/en-US/docs/Web/API/Location/reload) method.
 
 <br>
 
