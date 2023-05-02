@@ -71,7 +71,7 @@ The first thing we will do is get familiar with the starter code provided for th
 
    - `script.js` - This file contains code that handles the game's start button. Please open it and take a look at how the event listener is set up.
 
-   - `game.js` - This is the file where we will define the `Game` class to represent the game's data and behavior. We will fill out this class as we progress through the exercise.
+   - `game.js` - This is the file where we will define the `Game` class to represent the game's data (properties) and behaviors (methods). We will fill out this class as we progress through the exercise.
 
 <br>
 
@@ -79,7 +79,9 @@ The start screen is already displayed on the page, as shown below.
 
 ![island racer game start screen](https://education-team-2020.s3.eu-west-1.amazonaws.com/web-dev/m1/lab-dom-race-car/lab-dom-race-car-start-screen.png)
 
-Upon clicking the **Start Game** button, the player should transition from the _start screen_ to the _game screen_, initiating the game. In the next iteration, we will create the Game class and implement the functionality required to start the game.
+Upon clicking the **Start Game** button, the player should transition from the _start screen_ to the _game screen_, initiating the game. 
+
+In the next iteration, we will create the `Game` class and implement the functionality required to **start** the game.
 
 <br>
 
@@ -87,7 +89,7 @@ Upon clicking the **Start Game** button, the player should transition from the _
 
 In this iteration, you will create the `Game` class in the `js/game.js` file. This class will be responsible for managing the game data and behavior.
 
-1. In the file `js/game.js` define a new class called `Game`.
+1. The class `Game` is defined in the `js/game.js` file.
 
 2. The `Game` class should have the following properties defined in the constructor:
 
@@ -123,7 +125,7 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
    - Sets the height and width of the game screen.
    - Hides the start screen.
    - Shows the game screen.
-   - Starts the game loop by calling the `gameLoop()` method.
+   - Starts the game loop by calling the `gameLoop()` method. We will create a `gameLoop` method in the following iteration.
 
    </details>
 
@@ -134,7 +136,7 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
 
    - Checks if the `gameIsOver` flag is set to `true`. If it is, it interrupts the function to stop the loop.
 
-   - Invokes the `update()` method to update the game state.
+   - Invokes the `update()` method to update the game state. We will create a `update` method in the following iteration.
 
    - To ensure that the game loop function runs repeatedly, it should invoke itself (like `this.gameLoop()`), to create a recursive loop.
      To ensure a consistent frame rate, use `window.requestAnimationFrame()` to execute the function.
@@ -178,16 +180,18 @@ class Game {
 
     // Hide the start screen
     this.startScreen.style.display = "none";
+    
     // Show the game screen
     this.gameScreen.style.display = "block";
 
-    //
+    // Start the game loop
     this.gameLoop();
   }
 
   gameLoop() {
     console.log("in the game loop");
 
+    // Interrupt the function to stop the loop if "gameIsOver" is set to "true"
     if (this.gameIsOver) {
       return;
     }
@@ -197,7 +201,9 @@ class Game {
     window.requestAnimationFrame(() => this.gameLoop());
   }
 
-  update() {}
+  update() {
+    console.log("in the update");
+  }
 }
 ```
 
@@ -209,7 +215,7 @@ class Game {
 
 ## Iteration 2: Start the Game
 
-When the **Start Game** button is clicked, inside the `startGame` function we should create a new instance of the `Game` class and start the game by invoking the `start()` method:
+Check the provided code in the `js/script.js` file. When the **Start Game** button is clicked, inside the `startGame` function we should create a new instance of the `Game` class and start the game by invoking the `start()` method:
 
 <details>
 	<summary>See the code</summary>
@@ -222,7 +228,7 @@ When the **Start Game** button is clicked, inside the `startGame` function we sh
 window.onload = function () {
   const startButton = document.getElementById("start-button");
   const restartButton = document.getElementById("restart-button");
-  let game;
+  let game; // added
 
   startButton.addEventListener("click", function () {
     startGame();
@@ -230,9 +236,9 @@ window.onload = function () {
 
   function startGame() {
     console.log("start game");
-    game = new Game();
+    game = new Game(); // added
 
-    game.start();
+    game.start(); // added
   }
 };
 ```
@@ -267,25 +273,22 @@ In this iteration, we will create the `Player` class, representing the player's 
 
    - `height` - the height of the car element passed as an argument to the constructor.
 
-   - `directionX` - initially set to 0. It is used to specify the horizontal movement direction:
+   - `directionX` - initially set to 0. It is used to specify the **horizontal** movement direction and can have the following values:
      - `0`: not moving horizontally
      - `1`: moving horizontally to the right
      - `-1`: moving horizontally to the left
-   - `directionY` - initially set to 0. It is used to specify the horizontal movement direction:
-
+   - `directionY` - initially set to 0. It is used to specify the **vertical** movement direction and can have the following values:
      - `0`: not moving vertically
-
      - `1`: moving vertically down
-
      - `-1`: moving vertically up
 
-   - `element` - the image element representing the car, created in the constructor using the provided image url passed as an argument to the constructor.
+   - `element` - the **image** element representing the car. This image element should be created in the constructor using the *provided image source (image url) passed as an argument* to the constructor.
 
    <br>
 
-5. In order to set the exact position of the player element on the game screen, it should be positioned absolutely (`position: absolute`).
+5. In order to set the exact position of the player element on the game screen, it should be positioned absolutely (`position: absolute`). The exact position is determined by this element's width, height, left and top properties.
 
-6. Make sure to append the player element to the `gameScreen`.
+6. Make sure to append the newly created element to the `gameScreen`.
 
 7. The `Player` class should have the following methods:
 
@@ -298,7 +301,7 @@ In this iteration, we will create the `Player` class, representing the player's 
 
    - Ensures the player's car stays within the boundaries of the game screen by checking and adjusting the `left` and `top` properties.
 
-   - Updates the player's car position on the screen by calling the `updatePosition()` method.
+   - Updates the player's car position on the screen by calling the `updatePosition()` method. This method will be created in one of the following iterations.
 
    </details>
 
@@ -310,7 +313,7 @@ In this iteration, we will create the `Player` class, representing the player's 
    </details>
 
    <details>
-     <summary> <code><b>didColide(obstacle)</b></code> </summary>
+     <summary> <code><b>didCollide(obstacle)</b></code> </summary>
 
    Checks if the player's car collides with an obstacle. This method takes an `Obstacle` object as an argument and returns a boolean value indicating whether a collision occurred.
 
@@ -339,6 +342,7 @@ class Player {
 
     this.element.src = imgSrc;
     this.element.style.position = "absolute";
+    // Set up the default element's property values
     this.element.style.width = `${width}px`;
     this.element.style.height = `${height}px`;
     this.element.style.left = `${left}px`;
@@ -353,21 +357,33 @@ class Player {
     this.top += this.directionY;
 
     // Ensure the player's car stays within the game screen
+    // handles left hand side
     if (this.left < 10) {
       this.left = 10;
     }
+
+    // handles top side
     if (this.top < 10) {
       this.top = 10;
     }
+
+    // handles right hand side
     if (this.left > this.gameScreen.offsetWidth - this.width - 10) {
       this.left = this.gameScreen.offsetWidth - this.width - 10;
     }
+
+    // handles bottom side
     if (this.top > this.gameScreen.offsetHeight - this.height - 10) {
       this.top = this.gameScreen.offsetHeight - this.height - 10;
     }
 
     // Update the player's car position on the screen
     this.updatePosition();
+  }
+
+  updatePosition() {
+    this.element.style.left = `${this.left}px`;
+    this.element.style.top = `${this.top}px`;
   }
 
   didCollide(obstacle) {
@@ -386,10 +402,7 @@ class Player {
     }
   }
 
-  updatePosition() {
-    this.element.style.left = `${this.left}px`;
-    this.element.style.top = `${this.top}px`;
-  }
+
 }
 ```
 
@@ -401,7 +414,7 @@ class Player {
 
 ## Iteration 4: Add the Player to the Game
 
-1. Within the `Game` class, instantiate a new `Player` object and store it in the `player` property of the `Game`:
+1. As a reminder, we have already defined the `player` property of the `Game` class and set it to `null`. Now let's instantiate a new `Player` object and store it in the `player` property of the `Game`. 
 
 <details>
 	<summary>See the code</summary>
@@ -468,7 +481,8 @@ class Game {
 
 The goal of this iteration is to allow the player to control the car using the keyboard.
 
-To do this, we will add an event listener in the `js/script.js` file, which will update the player's `directionX` and `directionY` properties based on the keys that the user presses on the keyboard:
+To do this, we will add an event listener in the `js/script.js` file, which will update the player's car `directionX` and `directionY` properties based on the keys that the user presses on the keyboard. 
+This function listens for the `keydown` event using `document.onkeydown` and checks if the pressed key matches any of the allowed keystrokes (arrow keys).
 
 <details>
 	<summary>See the code</summary>
@@ -548,13 +562,13 @@ In this iteration, we will create the `Obstacle` class, which will be used to cr
 
    - `width` - the width of the obstacle element. We will set it to `100`.
 
-   - `height` - the height of the obstacle element. We will set it to `160`.
+   - `height` - the height of the obstacle element. We will set it to `150`.
 
    - `element` - the image element that represents the obstacle car. We will use the image of the red car available in the `images/` folder.
 
      <br>
 
-5. Once you create the obstacle element, you should position it absolutely (`position: absolute`) to be able to specify its exact position.
+5. Once you create the obstacle element, you should position it absolutely (`position: absolute`) to be able to specify its exact position. The exact position is determined by this element's width, height, left and top properties.
 
 6. Also, remember to append the obstacle element to the `gameScreen`.
 
@@ -563,13 +577,7 @@ In this iteration, we will create the `Obstacle` class, which will be used to cr
    <details>
      <summary> <code><b>move()</b></code> </summary>
 
-   Moves the obstacle according to the user's input by doing the following:
-
-   - Listens for the `keydown` event using `document.onkeydown`.
-
-   - Checks if the pressed key matches any of the allowed keystrokes (arrow keys).
-
-   - If the `key` matches, it moves the obstacle in the corresponding direction (left, up, right, or down) by adjusting the `left` or `top` CSS property of the obstacle's `img` element.
+   - Move the obstacle down by 3px by continuously updating its `top` property. 
 
    - Update the obstacle's position on the screen by calling the `updatePosition()` method.
 
@@ -632,8 +640,6 @@ class Obstacle {
 
 <br>
 
-
-
 ## Iteration 7: Handling Collisions
 
 The last key aspect of the game is handling the collisions between the player's car and the obstacle cars and generating obstacles randomly.
@@ -647,16 +653,28 @@ This method is responsible for updating the game state during each loop iteratio
 
 - Update player's car position based on its `directionX` and `directionY` properties by invoking the method `player.move()`.
 
+- Randomly generate a new obstacle.
+
 - Iterate through the list of `obstacles`, move each obstacle, and check for collision with the player’s car.
 
   - If there is a collision, remove the obstacle from the game and reduce the player’s remaining lives by one.
 
   - If the obstacle is off the screen, remove the obstacle from the game and increase the player’s score by one.
 
-- Check if the player has run out of lives, and end the game if so. You can create a new method responsible for ending the game.
-- Randomly generate a new obstacle.
+- Check if the player has run out of lives, and end the game if so. Create a new method (`endGame`) responsible for ending the game.
+
 
 </details>
+ 
+ <details>
+   <summary> <code><b>endGame()</b></code> </summary>
+
+ - Remove a player and all the obstacles from the DOM.
+ - Set the `gameIsOver` flag to `true`.
+ - Hide the game screen.
+ - Show the end game screen.
+
+ </details>
 
 <br>
 
@@ -719,11 +737,10 @@ class Game {
   // Create a new method responsible for ending the game
   endGame() {
     this.player.element.remove();
-    this.obstacles.forEach(function (obstacle) {
-      obstacle.element.remove();
-    });
+    this.obstacles.forEach(obstacle => obstacle.element.remove());
 
     this.gameIsOver = true;
+
     // Hide game screen
     this.gameScreen.style.display = "none";
     // Show end game screen
@@ -752,7 +769,7 @@ class Game {
 
 In this final iteration, we will implement the end game screen, shown to the user when the game is over.
 
-We will do this by adding a `click` event listener to the **Restart Game** button. The handler function for this listener should reload the page when the button is clicked. You can achieve this by using the [`location.reload()`](https://developer.mozilla.org/en-US/docs/Web/API/Location/reload) method.
+Check the code in the `js/script.js`. We will do this by adding a `click` event listener to the **Restart Game** button. The handler function for this listener should reload the page when the button is clicked. You can achieve this by using the [`location.reload()`](https://developer.mozilla.org/en-US/docs/Web/API/Location/reload) method.
 
 <br>
 
@@ -935,13 +952,7 @@ To make the game more competitive, add elements to shows the player's score and 
 
 ![](https://s3-eu-west-1.amazonaws.com/ih-materials/uploads/upload_e4b1a09cee1b1a827a2c68023d0d2b1f.png)
 
-
-
 <br>
-
-<br>
-
-
 
 ## Lab Solution
 
