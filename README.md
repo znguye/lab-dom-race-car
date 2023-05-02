@@ -414,7 +414,7 @@ class Player {
 
 ## Iteration 4: Add the Player to the Game
 
-1. As a reminder, we have already defined the "player" property of the `Game` class and set it up to "null", so now let's instantiate a new `Player` object and store it in the `player` property of the `Game`. 
+1. As a reminder, we have already defined the `player` property of the `Game` class and set it to `null`. Now let's instantiate a new `Player` object and store it in the `player` property of the `Game`. 
 
 <details>
 	<summary>See the code</summary>
