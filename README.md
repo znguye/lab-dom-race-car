@@ -558,7 +558,7 @@ In this iteration, we will create the `Obstacle` class, which will be used to cr
 
    - `left` - randomly generated number representing the horizontal position of the car.
 
-   - `top` - the initial vertical position of the obstacle. We will set it to `600`.
+   - `top` - the initial vertical position of the obstacle. We will set it to `0`.
 
    - `width` - the width of the obstacle element. We will set it to `100`.
 
