@@ -113,9 +113,9 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
 
    - `gameIsOver` - a flag used to track whether the game is over. Set the initial value to `false`.
 
-   - `gameIntervalId` - a variable used to later store the ID of the interval running the game. This is needed in order to clear the interval once the game is over.
+   - `gameIntervalId` - a variable used to store the id of the interval running the game loop. We store and use this id to clear the interval once the game is over.
 
-   - `gameLoopFrecuency` - a number that indicates how many times the game interval will execute. `1000/60` is a good value for most screen making the game screen update 60 times per second (run at 60fps).
+   - `gameLoopFrecuency` - a number that indicates the interval in milliseconds at which the game loop will execute. A good value for most screens is `1000/60`, which equates to the the game being updated every ~17 millisecond, or about 60 times per second (60fps).
 
       <br>
 
@@ -129,7 +129,7 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
    - Sets the height and width of the game screen.
    - Hides the start screen.
    - Shows the game screen.
-   - Starts the game loop using a `setInterval()` that will run the `gameLoop()` with a frecuency of 60 times per second`.
+   - Starts the game loop using `setInterval()`, which repeatedly executes the `gameLoop()` function at a frecuency of 60 times per second.
 
    </details>
 
@@ -140,7 +140,7 @@ In this iteration, you will create the `Game` class in the `js/game.js` file. Th
 
    - Invokes the `update()` method to update the game state. We will create a `update` method in the following iteration.
 
-   - Checks if the `gameIsOver` flag is set to `true`. If it is, it interrupts the game interval by calling `clearInterval` on the `gameIntervalId`.
+   - Checks if the `gameIsOver` flag is set to `true`. If it is, it interrupts the game interval by calling `clearInterval` while passing the `gameIntervalId` as an argument.
 
    </details>
 
@@ -173,7 +173,7 @@ class Game {
     this.lives = 3;
     this.gameIsOver = false;
     this.gameIntervalId;
-    this.gameLoopFrequency = 1000/60 // 60fps
+    this.gameLoopFrequency = Math.round(1000/60); // 60fps
   }
 
   start() {
@@ -198,7 +198,7 @@ class Game {
     
     this.update();
 
-    // Interrupt the interval to stop the loop if "gameIsOver" is set to "true"
+    // If "gameIsOver" is set to "true" clear the interval to stop the loop
     if (this.gameIsOver) {
       clearInterval(this.gameIntervalId)
     }
